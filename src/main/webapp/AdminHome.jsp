@@ -1,3 +1,4 @@
+<%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -289,53 +290,49 @@
                 </div>
             </div>
             
-            <!-- Recent Orders -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Recent Orders</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Refresh</a></li>
-                            <li><a class="dropdown-item" href="#">Export</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex align-items-center">
-                            <div class="me-3 text-primary">
-                                <i class="fas fa-user-plus fa-fw"></i>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">Today, 10:45 AM</div>
-                                <span class="font-weight-bold">New user registered</span> - John Doe
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center">
-                            <div class="me-3 text-success">
-                                <i class="fas fa-box-open fa-fw"></i>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">Today, 09:30 AM</div>
-                                <span class="font-weight-bold">New product added</span> - Wireless Headphones
-                            </div>
-                        </div>
-                        <div class="list-group-item d-flex align-items-center">
-                            <div class="me-3 text-warning">
-                                <i class="fas fa-shopping-cart fa-fw"></i>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">Yesterday, 4:15 PM</div>
-                                <span class="font-weight-bold">New order received</span> - #ORD-78945
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+			<!-- Recent Orders Card -->
+			<div class="card shadow mb-4">
+			    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+			        <h6 class="m-0 font-weight-bold text-primary">Recent Orders</h6>
+			        <div class="dropdown no-arrow">
+				           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+				               data-bs-toggle="dropdown" aria-expanded="false">
+				               <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+				           </a>
+				           <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
+				               <li><a class="dropdown-item" href="#">Refresh</a></li>
+				               <li><a class="dropdown-item" href="#">Export</a></li>
+				           </ul>
+				     </div>
+				 </div>
+			     <div class="card-body">
+			        <div class="list-group list-group-flush">
+			            <%
+				             ResultSet rs = (ResultSet) request.getAttribute("recentOrders");
+				                if (rs != null) {
+				                    while (rs.next()) {
+				                        String orderId = "#ORD-" + rs.getInt("orderId");
+				                        String customer = rs.getString("username");
+				                        String orderDate = rs.getString("orderDate"); 
+				                        double total = rs.getDouble("price");
+				            %>
+				                <div class="list-group-item d-flex align-items-center">
+				                    <div class="me-3 text-warning">
+				                        <i class="fas fa-shopping-cart fa-fw"></i>
+				                    </div>
+				                    <div>
+				                        <div class="small text-gray-500"><%= orderDate %></div>
+				                        <span class="font-weight-bold">New order received</span> - <%= orderId %> 
+				                        ( <%= customer %>, ₹<%= total %> )
+				                    </div>
+				                </div>
+				            <%
+				                    }
+				                }
+			            %>
+			        </div>
+			    </div>
+			</div>
         </div>
     </div>
 </div>

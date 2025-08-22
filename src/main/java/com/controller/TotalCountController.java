@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.awt.image.RescaleOp;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ public class TotalCountController extends HttpServlet {
 		int totalUser = 0;
 		int totalCustomer = 0;
 		int totalOrders = 0;
-		
+	
 		
 		try  {
 			
@@ -67,10 +68,13 @@ public class TotalCountController extends HttpServlet {
 			}
 			
 			
-//			PreparedStatement pstmt5 = conn.prepareStatement("");
-//			
-//			pstmt5.executeQuery();
+			PreparedStatement pstmt5 = conn.prepareStatement("SELECT o.orderId, u.username, o.orderDate, o.price " +
+				    "FROM orders o JOIN users u ON o.userId = u.userId " +
+				    "ORDER BY o.orderDate DESC");
 			
+			ResultSet recentOrders  = pstmt5.executeQuery();
+			
+			 request.setAttribute("recentOrders", recentOrders);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
