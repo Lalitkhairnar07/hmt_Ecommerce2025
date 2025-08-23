@@ -48,7 +48,7 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">All Products</h2>
-        <a href="CustomerHome.jsp" class="btn btn-primary btn-sm mb-3 float-end">
+        <a href="CustomerDashboardController" class="btn btn-primary btn-sm mb-3 float-end">
    			← Back To Home
 		</a>
     </div>

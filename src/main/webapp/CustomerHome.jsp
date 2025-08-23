@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.sql.ResultSet"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -269,37 +270,53 @@
                     <i class="fas fa-box"></i>
                     <h3></h3>
                     <p>Total Orders</p>
+                    <p>${totalOrders}</p>
                 </div>
-                <div class="stat-card">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h3></h3>
-                    <p>Items in Cart</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3></h3>
-                    <p>Saved Addresses</p>
-                </div>
+                <a href="AddtocartList" style="text-decoration: none; color: inherit;">
+    				<div class="stat-card">
+        			<i class="fas fa-shopping-cart"></i>
+        			<p>Items in Cart</p>
+        			<p>${totalCart}</p>
+    				</div>
+				</a>
+               <a href="AddressDataController" style="text-decoration: none; color: inherit;">
+    				<div class="stat-card">
+        			<i class="fas fa-map-marker-alt"></i>
+        			<p>Saved Addresses</p>
+        			<p></p>
+    				</div>
+			   </a>
+
                 <div class="stat-card">
                     <i class="fas fa-star"></i>
                     <h3></h3>
                     <p>Your Rating</p>
+                    <p></p>
                 </div>
             </div>
             
             <div class="recent-activity">
                 <h4 class="mb-4"><i class="fas fa-clock me-2"></i>Recent Activity</h4>
                 
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>Added product to cart</h6>
-                        <p>Wireless Headphones was added to your shopping cart</p>
-                        <div class="activity-time">2 hours ago</div>
-                    </div>
-                </div>
+                <%
+    				ResultSet rs = (ResultSet) request.getAttribute("cartActivityRS");
+    				if (rs != null) {
+        				while (rs.next()) {
+				%>
+    				<div class="activity-item d-flex align-items-start mb-3">
+        				<div class="activity-icon me-3">
+            				<i class="fas fa-shopping-cart"></i>
+        				</div>
+        				<div class="activity-content">
+            				<h6><%= rs.getString("title") %></h6>
+            				<p><%= rs.getString("message") %></p>
+            				<div class="activity-time">Cart ID: <%= rs.getInt("dateInfo") %></div>
+        				</div>
+    				</div>
+				<%
+        			}
+    			}
+				%>
                 
                 <div class="activity-item">
                     <div class="activity-icon">
@@ -312,16 +329,29 @@
                     </div>
                 </div>
                 
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-box-open"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>Order delivered</h6>
-                        <p>Your order #12345 has been successfully delivered</p>
-                        <div class="activity-time">3 days ago</div>
-                    </div>
-                </div>
+                <%
+    				ResultSet orders = (ResultSet) request.getAttribute("orders");
+    				if (orders != null) {
+        				while (orders.next()) {
+            				int orderId = orders.getInt("orderId");
+            				String orderDate = orders.getString("orderDate");
+            				int price = orders.getInt("price");	
+				%>
+				
+    				<div class="activity-item">
+        				<div class="activity-icon">
+            				<i class="fas fa-box-open"></i>
+        				</div>
+        				<div class="activity-content">
+            				<h6>Order <%= orderId %></h6>
+            					<p>Your order of ₹<%= price %> has been placed successfully</p>
+           	 					<div class="activity-time"><%= orderDate %></div>
+        				</div>
+    				</div>
+				<%
+        				}
+    				}
+				%>
             </div>
         </div>
     </div>

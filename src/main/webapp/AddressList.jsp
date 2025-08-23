@@ -90,7 +90,7 @@
                 <p class="mb-0 opacity-75">Manage your saved delivery addresses</p>
             </div>
             <div>
-                <a href="CustomerHome.jsp" class="btn btn-light me-2">
+                <a href="CustomerDashboardController" class="btn btn-light me-2">
                     <i class="fas fa-home me-1"></i> Dashboard
                 </a>
                 <a href="AddressForm.jsp" class="btn btn-outline-light">
