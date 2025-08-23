@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet{
                         
                     } else if ("customer".equalsIgnoreCase(role)) {
                     	
-                        response.sendRedirect("CustomerHome.jsp");
+                        response.sendRedirect("CustomerDashboardController");
                         
                     }
                     
