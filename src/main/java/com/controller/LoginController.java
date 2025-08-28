@@ -22,6 +22,7 @@ public class LoginController extends HttpServlet{
 
 		String email = request.getParameter("email");
         String password = request.getParameter("password");
+        
 
         boolean isError = false;
 
