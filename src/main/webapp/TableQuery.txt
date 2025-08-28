@@ -1,0 +1,56 @@
+Create Table Query
+
+CREATE TABLE users (
+    userId INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100),
+    gender VARCHAR(10),
+    email VARCHAR(150) UNIQUE,
+    password VARCHAR(100),
+    contactNumber VARCHAR(15),
+    createdAt VARCHAR(100),
+    role VARCHAR(20),
+    active BOOLEAN
+);
+
+
+CREATE TABLE products (
+    productId INT AUTO_INCREMENT PRIMARY KEY,
+    productName VARCHAR(100),
+    brand VARCHAR(100),
+    category VARCHAR(100),
+    subcategory VARCHAR(100),
+    quantity INT,
+    price DECIMAL(10, 2)
+);
+
+
+CREATE TABLE address (
+    addressId INT AUTO_INCREMENT PRIMARY KEY,
+    addressLine VARCHAR(255),
+    landmark VARCHAR(255),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    pincode VARCHAR(10),
+    label VARCHAR(50),
+    isDefault BOOLEAN DEFAULT FALSE,
+    userId INT
+);
+
+CREATE TABLE cart (
+    cartId INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT,
+    productId INT,
+    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (productId) REFERENCES products(productId)
+);
+
+CREATE TABLE orders (
+    orderId INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT,
+    productId INT,
+    price DECIMAL(10, 2),
+    orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ 
+    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (productId) REFERENCES products(productId)
+);
